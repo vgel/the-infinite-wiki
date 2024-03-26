@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import * as ai from "ai/react";
+import { useRouter } from "next/navigation";
 
 import { Article, parseArticle } from "./parser";
 import { slugify } from "./util";
@@ -183,6 +184,7 @@ export const useReset = (): (() => void) => {
 export const useSetSeed = (): ((text: string) => void) => {
   const { clearMessages, addMessage } = useChatStore();
   const { addPage } = usePageStore();
+  const router = useRouter();
 
   return (text) => {
     const article = parseArticle(text);
@@ -199,5 +201,6 @@ export const useSetSeed = (): ((text: string) => void) => {
       content: text,
     });
     addPage(slug, article);
+    router.push(`/wiki/${slug}`);
   };
 };
