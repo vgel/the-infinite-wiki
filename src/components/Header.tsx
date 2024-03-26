@@ -1,11 +1,11 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import slugify from "slugify";
 import Link from "next/link";
 
 import SearchBar from "./SearchBar";
 import { usePageStore } from "@/app/store";
+import { slugify } from "../app/util";
 
 const Header = () => {
   const router = useRouter();
@@ -40,7 +40,7 @@ const Header = () => {
               </g>
             </svg>
           </Link>
-          <SearchBar onSearch={(s) => router.push(`/wiki/${slugify(s, "_")}`)} />
+          <SearchBar onSearch={(s) => router.push(`/wiki/${slugify(s)}`)} />
         </div>
         <div>
           {numPages} {numPages == 1 ? "page" : "pages"} generated.
