@@ -18,8 +18,8 @@ export default function Home() {
           <h2 className="text-lg text-center">an infinitely-unfurling encylopedia.</h2>
         </header>
         <p>
-          The Infinite Wiki is a wiki that goes on forever. Starting from a "seed page", new pages are iteratively
-          rolled out by a Large Language Model (currently Anthropic's Claude 3 Opus) based on the pages you visit. A
+          The Infinite Wiki is a wiki that goes on forever. Starting from a &ldquo;seed page&rdquo;, new pages are iteratively
+          rolled out by a Large Language Model (currently Anthropic&apos;s Claude 3 Opus) based on the pages you visit. A
           history of pages is kept in the model context, so a self-consistent world accretes around your trail through
           latent space. You can visit new pages either by clicking generated links, or searching for a page you want to
           see in the search bar above, once the wiki has been initialized.{" "}
@@ -37,10 +37,10 @@ export default function Home() {
           to start the wiki with it.{" "}
           <small>
             (You can also design your own seed if you want—check the presets for the format. Make sure to use enough
-            [[links]] and ''formatting'' for Claude to get the gist! Automatic metaprompt seed page generation coming
+            [[links]] and &apos;&apos;formatting&apos;&apos; for Claude to get the gist! Automatic metaprompt seed page generation coming
             Soon™. Until then, it can be helpful to write a not-so-good seed page, let Claude riff on it a bit, then
             copy a page you particularly like to be the real seed page for the theme. If you come up with any cool
-            themes, I'd appreciate if you'd share them with me—I'd love to integrate them as new presets!)
+            themes, I&apos;d appreciate if you&apos;d share them with me—I&apos;d love to integrate them as new presets!)
           </small>
         </p>
         <hr></hr>
@@ -99,9 +99,9 @@ const ApiKeyForm = () => {
         />
       </div>
       <small className="text-xs">
-        This key will be transmitted to a server-side API proxy (because Anthropic's API doesn't set the appropriate
+        This key will be transmitted to a server-side API proxy (because Anthropic&apos;s API doesn&apos;t set the appropriate
         CORS headers for browser usage), but the key will not be stored on the server—it is only saved locally. The
-        Infinite Wiki is open-source on Github if you'd like to assure yourself that I won't mess with your key, or just
+        Infinite Wiki is open-source on Github if you&apos;d like to assure yourself that I won&apos;t mess with your key, or just
         run your own instance:{" "}
         <WikiLink target="_blank" href="https://github.com/vgel/the-infinite-wiki">
           vgel/the-infinite-wiki
@@ -137,7 +137,7 @@ const CreateSeedPage = () => {
 
   return (
     <div className="flex flex-col gap-2 max-w-md p-2">
-      <p className="font-bold">The wiki currently doesn't have any pages.</p>
+      <p className="font-bold">The wiki currently doesn&apos;t have any pages.</p>
       <p>Choose a preset seed page, or create your own below to get started!</p>
       <div className="flex flex-row flex-wrap gap-2">
         {Object.entries(SEEDS).map(([desc, seed]) => (

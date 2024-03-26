@@ -25,8 +25,8 @@ const WikiPage = ({ article, isLoading }: WikiPageProps) => {
       </h1>
       {article.paragraphs.map((p, idx) => (
         <p key={idx}>
-          {p.parts.map((part) => (
-            <RenderPart part={part} clickableLinks={!isLoading} />
+          {p.parts.map((part, idx) => (
+            <RenderPart key={idx} part={part} clickableLinks={!isLoading} />
           ))}
           {idx == article.paragraphs.length - 1 && lastParaSpinner}
         </p>
