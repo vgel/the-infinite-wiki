@@ -10,6 +10,11 @@ const SEEDS: Record<string, Seed> = {
 The blimp's hull was crafted from a revolutionary new material known as [[Levitanium]], an ultra-lightweight alloy imbued with anti-gravitational properties discovered by the reclusive scientist [[Dr. Erasmus Flotsome]]. This allowed the Emple to achieve unparalleled buoyancy and maneuverability compared to contemporary airships.
 
 The Emple disappeared without a trace in [[1889 PE]], in what is considered one of the first widely-publicized cases of [[Mass Hyperstition]].
+
+'''See also:'''
+- [[Persippan Chronology]]
+- [[List of Blimp Accidents]]
+- [[Quixotica Industries]]
 </article> </wiki>`,
   },
   "2050s Biopunk Cyberware": {
