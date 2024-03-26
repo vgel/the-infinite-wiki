@@ -114,6 +114,7 @@ const ApiKeyForm = () => {
 };
 
 const CreateSeedPage = () => {
+  const { apiKey } = useApiKeyStore();
   const [text, setText] = useState("");
   const setSeed = useSetSeed();
   const seedLooksValid =
@@ -129,6 +130,10 @@ const CreateSeedPage = () => {
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
+    if (!apiKey) {
+      alert("You need to enter an API key above.");
+      return;
+    }
     if (seedLooksValid) {
       setSeed(text);
     } else {
