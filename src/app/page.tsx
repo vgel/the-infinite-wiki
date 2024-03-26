@@ -18,18 +18,18 @@ export default function Home() {
           <h2 className="text-lg text-center">an infinitely-unfurling encylopedia.</h2>
         </header>
         <p>
-          The Infinite Wiki is a wiki that goes on forever. Starting from a &ldquo;seed page&rdquo;, new pages are iteratively
-          rolled out by a Large Language Model (currently Anthropic&apos;s Claude 3 Opus) based on the pages you visit. A
-          history of pages is kept in the model context, so a self-consistent world accretes around your trail through
-          latent space. You can visit new pages either by clicking generated links, or searching for a page you want to
-          see in the search bar above, once the wiki has been initialized.{" "}
+          The Infinite Wiki is a wiki that goes on forever. Starting from a &ldquo;seed page&rdquo;, new pages are
+          iteratively rolled out by a Large Language Model (currently Anthropic&apos;s Claude 3 Opus) based on the pages
+          you visit. A history of pages is kept in the model context, so a self-consistent world accretes around your
+          trail through latent space. You can visit new pages either by clicking generated links, or searching for a
+          page you want to see in the search bar above, once the wiki has been initialized.{" "}
         </p>
         <p>
           The Infinite Wiki is currently very early in development, so expect bugs. Most pressingly, navigating away
           from a page mid-generation currently loses all progress on that page.
         </p>
         <p>
-          To get started, put in an{" "}
+          To get started, get an{" "}
           <WikiLink target="_blank" href="https://console.anthropic.com/login">
             Anthropic API key
           </WikiLink>{" "}
@@ -37,10 +37,11 @@ export default function Home() {
           to start the wiki with it.{" "}
           <small>
             (You can also design your own seed if you want—check the presets for the format. Make sure to use enough
-            [[links]] and &apos;&apos;formatting&apos;&apos; for Claude to get the gist! Automatic metaprompt seed page generation coming
-            Soon™. Until then, it can be helpful to write a not-so-good seed page, let Claude riff on it a bit, then
-            copy a page you particularly like to be the real seed page for the theme. If you come up with any cool
-            themes, I&apos;d appreciate if you&apos;d share them with me—I&apos;d love to integrate them as new presets!)
+            [[links]] and &apos;&apos;formatting&apos;&apos; for Claude to get the gist! Automatic metaprompt seed page
+            generation coming Soon™. Until then, it can be helpful to write a not-so-good seed page, let Claude riff on
+            it a bit, then copy a page you particularly like to be the real seed page for the theme. If you come up with
+            any cool themes, I&apos;d appreciate if you&apos;d share them with me—I&apos;d love to integrate them as new
+            presets!)
           </small>
         </p>
         <hr></hr>
@@ -99,10 +100,10 @@ const ApiKeyForm = () => {
         />
       </div>
       <small className="text-xs">
-        This key will be transmitted to a server-side API proxy (because Anthropic&apos;s API doesn&apos;t set the appropriate
-        CORS headers for browser usage), but the key will not be stored on the server—it is only saved locally. The
-        Infinite Wiki is open-source on Github if you&apos;d like to assure yourself that I won&apos;t mess with your key, or just
-        run your own instance:{" "}
+        This key will be transmitted to a server-side API proxy (because Anthropic&apos;s API doesn&apos;t set the
+        appropriate CORS headers for browser usage), but the key will not be stored on the server—it is only saved
+        locally. The Infinite Wiki is open-source on Github if you&apos;d like to assure yourself that I won&apos;t mess
+        with your key, or just run your own instance:{" "}
         <WikiLink target="_blank" href="https://github.com/vgel/the-infinite-wiki">
           vgel/the-infinite-wiki
         </WikiLink>
