@@ -4,6 +4,7 @@ it's still quite janky but it does work. very quickly hacked together pls don't 
 
 ## TODO:
 
+- less stupid wiki markup parser / renderer
 - rip out vercel/ai for a plain streaming connection
   - then, make store.ts not suck
   - (update: store.ts sucks a bit less now)

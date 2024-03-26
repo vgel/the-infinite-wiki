@@ -11,7 +11,7 @@ export interface Paragraph {
 
 export type Part =
   | string
-  | { type: "link"; display: string; dest: string }
+  | { type: "link" | "boldlink"; display: string; dest: string }
   | { type: "bold" | "italic"; display: string };
 
 export function parseArticle(text: string): Article {
@@ -47,14 +47,16 @@ function parseParagraphs(text: string): Paragraph[] {
     .filter((s) => s !== "")
     .map((p) => ({
       parts: p.split(/(\[\[[^\]]+?\]\]|'''[^']+?'''|''[^']+?'')/).map((part) => {
-        if (part.startsWith("[[")) {
+        if (part.startsWith("[[") || part.startsWith("'''[[")) {
+          const type = part.startsWith("'''[[") ? "boldlink" : "link";
+          part = part.replace(/'''/g, "");
           if (part.includes("|")) {
             const slug = slugify(part.split("|")[0].replace("[[", ""));
             const display = part.split("|")[1].replace("]]", "").trim();
-            return { type: "link", display: `[[${display}]]`, dest: `/wiki/${slug}` };
+            return { type, display: `[[${display}]]`, dest: `/wiki/${slug}` };
           } else {
             const slug = slugify(part.replace("[[", "").replace("]]", ""));
-            return { type: "link", display: part, dest: `/wiki/${slug}` };
+            return { type, display: part, dest: `/wiki/${slug}` };
           }
         } else if (part.startsWith("'''")) {
           return { type: "bold", display: part.replace(/'''/g, "") };

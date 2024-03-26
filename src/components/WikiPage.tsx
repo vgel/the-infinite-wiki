@@ -42,9 +42,11 @@ const RenderPart = ({ part, clickableLinks }: { part: Part; clickableLinks: bool
     return <strong className="font-bold">{part.display}</strong>;
   } else if (part.type === "italic") {
     return <span className="italic">{part.display}</span>;
-  } else if (part.type === "link") {
-    return clickableLinks ? <WikiLink href={part.dest}>{part.display}</WikiLink> : <span>{part.display}</span>;
+  } else if (part.type === "link" || part.type === "boldlink") {
+    const el = clickableLinks ? <WikiLink href={part.dest}>{part.display}</WikiLink> : <span>{part.display}</span>;
+    return part.type === "boldlink" ? <strong className="font-bold">{el}</strong> : el;
   } else {
+    let _x: never = part.type;
     console.error("unknown part", part);
     return <span>{`${part}`}</span>;
   }
