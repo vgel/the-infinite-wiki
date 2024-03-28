@@ -63,11 +63,15 @@ export default function Home() {
             lumpen space process
           </WikiLink>{" "}
           for code review, architectural feedback, early testing, various ideas, and coming up with the Infinite Wiki
-          name (a much better name than my original one!), and{" "}
+          name (a much better name than my original one!),{" "}
           <WikiLink target="_blank" href="https://twitter.com/karan4d">
             mephisto (Nous Research)
           </WikiLink>{" "}
-          for prompt inspiration and various ideas. And as with all my projects, thanks to my wife{" "}
+          for prompt inspiration and various ideas, and{" "}
+          <WikiLink target="_blank" href="https://twitter.com/deepfates">
+            deepfates
+          </WikiLink>{" "}
+          for helping with bashing some nasty bugs. And as with all my projects, thanks to my wife{" "}
           <WikiLink target="_blank" href="https://linneaisaac.com">
             Linnea
           </WikiLink>{" "}
