@@ -130,6 +130,8 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     }
     const page = parseArticle(chat.messages[chat.messages.length - 1].content);
     return { page, isLoading: true };
+  } else if (chat.error) {
+    return makeErrorReturn(`${chat.error.name}: ${chat.error.message}`);
   } else if (chat.messages.length >= 2 && chat.messages[chat.messages.length - 2].id === userMessageId) {
     // we're not loading because we just finished generating
     // add the user & assistant messages to the history and save the page
@@ -152,25 +154,35 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
       return { page, isLoading: false };
     } else {
       // TODO lol
-      return {
-        page: {
-          title: "Error",
-          paragraphs: [{ parts: ["Please reload the page."] }],
-        },
-        isLoading: false,
-      };
+      return makeErrorReturn(asstMessage.content);
     }
   } else {
-    const userMessage: Message = {
-      id: userMessageId,
-      role: "user",
-      content: `<click> page:${slug} </click>`,
-    };
-    chat.setMessages([...messages, userMessage]);
-    chat.reload();
+    if (apiKey) {
+      const userMessage: Message = {
+        id: userMessageId,
+        role: "user",
+        content: `<click> page:${slug} </click>`,
+      };
+      chat.setMessages([...messages, userMessage]);
+      chat.reload();
+    }
     return { page: { title: "", paragraphs: [] }, isLoading: true };
   }
 };
+
+function makeErrorReturn(error: string): { page: Article; isLoading: boolean } {
+  return {
+    page: {
+      title: "Error",
+      paragraphs: [
+        { parts: [{ type: "italic", display: "Please reload the page or try a different one." }] },
+        { parts: [""] },
+        { parts: [error] },
+      ],
+    },
+    isLoading: false,
+  };
+}
 
 export const useReset = (): (() => void) => {
   const { clearMessages } = useChatStore();
