@@ -134,7 +134,7 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     messages: chat.messages,
     userMessageId,
     apiKey,
-    inFlightRequest,
+    inFlightRequest: inFlightRequest.current,
   });
   if (pages.hasOwnProperty(slug)) {
     return { page: pages[slug], isLoading: false };
