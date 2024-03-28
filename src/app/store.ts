@@ -133,7 +133,8 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     error: chat.error,
     messages: chat.messages,
     userMessageId,
-    hasApiKey: !!apiKey,
+    apiKey,
+    inFlightRequest,
   });
   if (pages.hasOwnProperty(slug)) {
     return { page: pages[slug], isLoading: false };
@@ -172,6 +173,7 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     }
   } else {
     if (apiKey && inFlightRequest.current !== slug) {
+      inFlightRequest.current = slug;
       console.log("making request for", slug);
       const userMessage: Message = {
         id: userMessageId,
@@ -180,7 +182,6 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
       };
       chat.setMessages([...messages, userMessage]);
       chat.reload();
-      inFlightRequest.current = slug;
     }
     return { page: { title: "", paragraphs: [] }, isLoading: true };
   }
