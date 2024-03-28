@@ -115,15 +115,8 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
   const { apiKey } = useApiKeyStore();
   const { pages, addPage } = usePageStore();
   const { messages, addMessage } = useChatStore();
-  // hack because useChat doesn't update isLoading right away
-  const inFlightRequest = useRef<string | null>(null);
-
   const chat = ai.useChat({
-    headers: apiKey
-      ? {
-          Authorization: apiKey,
-        }
-      : undefined,
+    id: "wikichat",
   });
 
   const userMessageId = `user-create-${slug}`;
@@ -134,7 +127,6 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     messages: chat.messages,
     userMessageId,
     apiKey,
-    inFlightRequest: inFlightRequest.current,
   });
   if (pages.hasOwnProperty(slug)) {
     return { page: pages[slug], isLoading: false };
@@ -145,7 +137,6 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     const page = parseArticle(chat.messages[chat.messages.length - 1].content);
     return { page, isLoading: true };
   } else if (chat.error) {
-    inFlightRequest.current = null;
     return makeErrorReturn(`${chat.error.name}: ${chat.error.message}`);
   } else if (chat.messages.length >= 2 && chat.messages[chat.messages.length - 2].id === userMessageId) {
     // we're not loading because we just finished generating
@@ -172,8 +163,7 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
       return makeErrorReturn(asstMessage.content);
     }
   } else {
-    if (apiKey && inFlightRequest.current !== slug) {
-      inFlightRequest.current = slug;
+    if (apiKey) {
       console.log("making request for", slug);
       const userMessage: Message = {
         id: userMessageId,
@@ -181,7 +171,13 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
         content: `<click> page:${slug} </click>`,
       };
       chat.setMessages([...messages, userMessage]);
-      chat.reload();
+      chat.reload({
+        options: {
+          headers: {
+            Authorization: apiKey,
+          },
+        },
+      });
     }
     return { page: { title: "", paragraphs: [] }, isLoading: true };
   }
