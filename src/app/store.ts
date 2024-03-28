@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import * as ai from "ai/react";
 import { useRouter } from "next/navigation";
+import { useRef } from "react";
 
 import { Article, parseArticle } from "./parser";
 import { slugify } from "./util";
@@ -114,11 +115,15 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
   const { apiKey } = useApiKeyStore();
   const { pages, addPage } = usePageStore();
   const { messages, addMessage } = useChatStore();
+  // hack because useChat doesn't update isLoading right away
+  const inFlightRequest = useRef<string | null>(null);
 
   const chat = ai.useChat({
-    headers: {
-      Authorization: apiKey ?? "",
-    },
+    headers: apiKey
+      ? {
+          Authorization: apiKey,
+        }
+      : undefined,
   });
 
   const userMessageId = `user-create-${slug}`;
@@ -139,6 +144,7 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     const page = parseArticle(chat.messages[chat.messages.length - 1].content);
     return { page, isLoading: true };
   } else if (chat.error) {
+    inFlightRequest.current = null;
     return makeErrorReturn(`${chat.error.name}: ${chat.error.message}`);
   } else if (chat.messages.length >= 2 && chat.messages[chat.messages.length - 2].id === userMessageId) {
     // we're not loading because we just finished generating
@@ -165,8 +171,8 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
       return makeErrorReturn(asstMessage.content);
     }
   } else {
-    if (apiKey) {
-      console.log("making request");
+    if (apiKey && inFlightRequest.current !== slug) {
+      console.log("making request for", slug);
       const userMessage: Message = {
         id: userMessageId,
         role: "user",
@@ -174,6 +180,7 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
       };
       chat.setMessages([...messages, userMessage]);
       chat.reload();
+      inFlightRequest.current = slug;
     }
     return { page: { title: "", paragraphs: [] }, isLoading: true };
   }
