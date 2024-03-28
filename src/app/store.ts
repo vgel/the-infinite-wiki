@@ -122,6 +122,14 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
   });
 
   const userMessageId = `user-create-${slug}`;
+  console.log("usePage", slug, ":", {
+    hasOwnProp: pages.hasOwnProperty(slug),
+    isLoading: chat.isLoading,
+    error: chat.error,
+    messages: chat.messages,
+    userMessageId,
+    hasApiKey: !!apiKey,
+  });
   if (pages.hasOwnProperty(slug)) {
     return { page: pages[slug], isLoading: false };
   } else if (chat.isLoading) {
@@ -158,6 +166,7 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
     }
   } else {
     if (apiKey) {
+      console.log("making request");
       const userMessage: Message = {
         id: userMessageId,
         role: "user",
