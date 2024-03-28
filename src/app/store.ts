@@ -120,14 +120,6 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
   });
 
   const userMessageId = `user-create-${slug}`;
-  console.log("usePage", slug, ":", {
-    hasOwnProp: pages.hasOwnProperty(slug),
-    isLoading: chat.isLoading,
-    error: chat.error,
-    messages: chat.messages,
-    userMessageId,
-    apiKey,
-  });
   if (pages.hasOwnProperty(slug)) {
     return { page: pages[slug], isLoading: false };
   } else if (chat.isLoading) {
@@ -163,8 +155,9 @@ export const usePage = (slug: string): { page: Article; isLoading: boolean } => 
       return makeErrorReturn(asstMessage.content);
     }
   } else {
+    // only attempt the request if the API key is ready
+    // (might take a tick to pop in because of zustand hydration)
     if (apiKey) {
-      console.log("making request for", slug);
       const userMessage: Message = {
         id: userMessageId,
         role: "user",
