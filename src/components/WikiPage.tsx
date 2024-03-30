@@ -1,15 +1,17 @@
 "use client";
 
-import { Spinner } from "./Icons";
+import { Spinner, Reload, Edit } from "./Icons";
 import { Article, Part } from "@/app/parser";
 import WikiLink from "./WikiLink";
 
 export interface WikiPageProps {
   article: Article;
   isLoading?: boolean;
+  regeneratePage: (() => void) | null;
+  editPage: (editSummary: string) => void;
 }
 
-const WikiPage = ({ article, isLoading }: WikiPageProps) => {
+const WikiPage = ({ article, isLoading, regeneratePage, editPage }: WikiPageProps) => {
   const spinner = (
     <span className="inline-block ml-2">
       <Spinner size={18} />
@@ -19,10 +21,30 @@ const WikiPage = ({ article, isLoading }: WikiPageProps) => {
   const lastParaSpinner = isLoading && article.paragraphs.length > 0 && spinner;
   return (
     <article className="max-w-4xl mx-auto">
-      <h1 className="text-4xl text-left italic font-serif border-b-2 border-black p-2 mb-2">
-        {article.title}
-        {titleSpinner}
-      </h1>
+      <div className="flex flex-row justify-between">
+        <h1 className="text-4xl text-left italic font-serif border-b-2 border-black p-2 mb-2 flex-grow">
+          {article.title}
+          {titleSpinner}
+        </h1>
+        {!isLoading && (
+          <div className="flex flex-row gap-2 items-center">
+            {regeneratePage !== null && (
+              <button title="Regenerate" onClick={regeneratePage}>
+                <Reload />
+              </button>
+            )}
+            <button
+              title="Edit"
+              onClick={() => {
+                const summary = prompt("Give a summary for your edit") ?? "";
+                editPage(summary);
+              }}
+            >
+              <Edit />
+            </button>
+          </div>
+        )}
+      </div>
       {article.paragraphs.map((p, idx) => (
         <p key={idx}>
           {p.parts.map((part, idx) => (
