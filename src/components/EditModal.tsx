@@ -34,9 +34,12 @@ const EditModal: React.FC<EditModalProps> = (props) => {
         ></textarea>
         <div className="flex justify-end">
           <button
-            className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:outline-none mr-2"
+            disabled={!content}
+            className="bg-green-500 hover:bg-green-600 text-white disabled:bg-gray-400 px-4 py-2 rounded-md focus:outline-none mr-2"
             onClick={() => {
-              props.onSubmit(content);
+              if (content) {
+                props.onSubmit(content);
+              }
             }}
           >
             Apply
