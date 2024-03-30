@@ -12,7 +12,8 @@ export interface Paragraph {
 export type Part =
   | string
   | { type: "link" | "boldlink"; display: string; dest: string }
-  | { type: "bold" | "italic"; display: string };
+  | { type: "bold" | "italic"; display: string }
+  | { type: "header", level: number, display: string };
 
 export function parseArticle(text: string): Article {
   if (!text.includes("<title>")) {
@@ -46,7 +47,7 @@ function parseParagraphs(text: string): Paragraph[] {
     .map((s) => s.trim())
     .filter((s) => s !== "")
     .map((p) => ({
-      parts: p.split(/(\[\[[^\]]+?\]\]|'''[^']+?'''|''[^']+?'')/).map((part) => {
+      parts: p.split(/(\[\[[^\]]+?\]\]|'''[^']+?'''|''[^']+?''|=+[^=]+=+)/).map((part) => {
         if (part.startsWith("[[") || part.startsWith("'''[[")) {
           const type = part.startsWith("'''[[") ? "boldlink" : "link";
           part = part.replace(/'''/g, "");
@@ -62,6 +63,10 @@ function parseParagraphs(text: string): Paragraph[] {
           return { type: "bold", display: part.replace(/'''/g, "") };
         } else if (part.startsWith("''")) {
           return { type: "italic", display: part.replace(/''/g, "") };
+        } else if (part.startsWith("=")) {
+          const level = part.match(/=+/)![0].length;
+          const display = part.replace(/^=+/, "").replace(/=+$/, "").trim();
+          return { type: "header", level: Math.min(6, Math.max(1, level)), display };
         } else {
           return part;
         }

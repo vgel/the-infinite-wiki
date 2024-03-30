@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import * as ai from "ai/react";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 import { Article, parseArticle } from "./parser";
 import { slugify } from "./util";
@@ -256,7 +256,6 @@ export const usePage = (
   } else if (chat.error) {
     return { ...makeErrorReturn(`${chat.error.name}: ${chat.error.message}`), regeneratePage, editPage };
   } else {
-    console.log(chat.messages.some((m) => m.id === userMessageIdForSlug));
     if (apiKey && !chat.messages.some((m) => m.id === userMessageIdForSlug)) {
       // only attempt the request if the API key is ready
       // (might take a tick to pop in because of zustand hydration)
@@ -287,7 +286,6 @@ function makeErrorReturn(error: string): { page: Article; isLoading: boolean } {
       title: "Error",
       paragraphs: [
         { parts: [{ type: "italic", display: "Please reload the page or try a different one." }] },
-        { parts: [""] },
         { parts: [error] },
       ],
     },
