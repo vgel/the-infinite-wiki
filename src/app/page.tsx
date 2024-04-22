@@ -71,11 +71,11 @@ export default function Home() {
           <WikiLink target="_blank" href="https://twitter.com/deepfates">
             deepfates
           </WikiLink>{" "}
-          for helping with bashing some nasty bugs. And as with all my projects, thanks to my wife{" "}
+          for helping with bashing some nasty bugs and the OMEDA CLAUDE seed. And as with all my projects, thanks to my wife{" "}
           <WikiLink target="_blank" href="https://linneaisaac.com">
             Linnea
           </WikiLink>{" "}
-          for inspiration and motivation—along with the Lovecraft seed.
+          for inspiration and motivation, along with the Lovecraft seed.
         </p>
       </main>
     </div>
